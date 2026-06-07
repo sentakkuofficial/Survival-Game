@@ -63,3 +63,6 @@ Scenes live in `SCENES` (scripted level beats) and `EVENTS` (random pool) in `ga
 
 ---
 Dark, tense, emotional, fast-paced. Reaching the Fifteen should feel like surviving, not winning.
+
+## Game is live at:
+https://sentakkuofficial.github.io/Survival-Game/
