@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NEVERLASTING: Grand Selection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+<button id="soundBtn" class="sound-toggle" title="Toggle sound">🔊</button>
+
+<!-- ============ TITLE ============ -->
+<section id="titleScreen" class="screen">
+  <div class="title-wrap">
+    <div class="kicker">600 enter · 15 survive</div>
+    <h1 class="game-logo">NEVER<span>LASTING</span></h1>
+    <div class="subtitle">GRAND SELECTION</div>
+    <p class="blurb">You are <b>Ichido</b>, Contestant <b>#502</b>. Bronze chain. White scarf. A deadly tournament that does not care who you were before. Every choice can end the run. Most do.</p>
+
+    <div class="meta-row">
+      <div class="meta"><span id="metaRuns">0</span><label>Runs</label></div>
+      <div class="meta"><span id="metaWins">0</span><label>Wins</label></div>
+      <div class="meta"><span id="metaDeepest">Level 1</span><label>Deepest</label></div>
+      <div class="meta"><span id="metaSurvCount">0</span><label>Deaths Logged</label></div>
+    </div>
+
+    <div class="perk-section">
+      <div class="perk-head">LEGACY · choose up to 2 <span class="muted">(unlock more by surviving)</span></div>
+      <div id="perkGrid" class="perk-grid"></div>
+      <div class="perk-chosen">Equipped: <span id="perkChosen">none</span></div>
+    </div>
+
+    <button id="startBtn" class="btn gold big">Enter the Arena</button>
+    <div class="title-links">
+      <button id="journalBtn" class="link">Death Journal</button>
+      <button id="galleryBtn" class="link">Ending Gallery</button>
+      <button id="wipeBtn" class="link danger">Wipe Legacy</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GAME ============ -->
+<section id="gameScreen" class="screen hidden">
+  <header class="hud">
+    <div class="hud-top">
+      <div class="level-tag" id="levelTag">LV 1 · RGB</div>
+      <div class="survivors"><span class="surv-num" id="survCount">600</span><label>still alive</label></div>
+    </div>
+
+    <div class="danger-row">
+      <label>DANGER</label>
+      <div class="danger-meter" id="dangerMeter"><div class="danger-fill" id="dangerFill"></div><span class="danger-num" id="dangerNum">0</span></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat" id="statHp"><label>VITALITY <i id="hpNum">100</i></label><div class="track hp"><i id="barHp"></i></div></div>
+      <div class="stat"><label>STAMINA</label><div class="track stam"><i id="barStam"></i></div></div>
+      <div class="stat"><label>HUNGER</label><div class="track hunger"><i id="barHunger"></i></div></div>
+      <div class="stat"><label>COMPOSURE</label><div class="track comp"><i id="barComp"></i></div></div>
+      <div class="stat" id="statInf"><label>INFECTION</label><div class="track inf"><i id="barInf"></i></div></div>
+    </div>
+
+    <div class="cond-row" id="conditions"></div>
+    <div class="supply-allies">
+      <div class="supplies" id="supplies"></div>
+      <div class="allies" id="allies"></div>
+    </div>
+  </header>
+
+  <main class="scene">
+    <div class="scene-flavor" id="sceneFlavor"></div>
+    <h2 class="scene-title" id="sceneTitle"></h2>
+
+    <div class="timer-wrap hidden" id="timerWrap">
+      <div class="timer-label">URGENT — <span id="timerNum">0.0</span>s</div>
+      <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+    </div>
+
+    <p class="scene-text" id="sceneText"></p>
+
+    <div class="choices" id="choices"></div>
+
+    <!-- reflex minigame -->
+    <div class="reflex-overlay hidden" id="reflexOverlay">
+      <div class="reflex-label" id="reflexLabel">STRIKE</div>
+      <div class="reflex-bar">
+        <div class="zone-good" id="zoneGood"></div>
+        <div class="zone-perfect" id="zonePerfect"></div>
+        <div class="reflex-marker" id="reflexMarker"></div>
+      </div>
+      <button class="btn gold reflex-hit" id="reflexHit">STRIKE &nbsp;<small>(Space)</small></button>
+      <div class="reflex-result" id="reflexResult"></div>
+      <div class="reflex-hint">Hit when the marker is in the lit zone. Gold = perfect.</div>
+    </div>
+
+    <div class="outcome hidden" id="outcome"></div>
+  </main>
+</section>
+
+<!-- ============ DEATH ============ -->
+<section id="deathScreen" class="screen hidden">
+  <div class="end-wrap death">
+    <div class="end-kicker">CONTESTANT #502 — RETIRED</div>
+    <h1 class="end-title death">YOU DIED</h1>
+    <p class="death-line" id="deathLine"></p>
+    <div class="end-meta" id="deathMeta"></div>
+    <div class="end-buttons">
+      <button class="btn gold big again">One more run</button>
+      <button class="btn to-journal">Death Journal</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WIN ============ -->
+<section id="winScreen" class="screen hidden">
+  <div class="end-wrap win">
+    <div class="end-kicker">THE FINAL FIFTEEN</div>
+    <h1 class="end-title win" id="winTitle">Survivor #502</h1>
+    <p class="death-line" id="winText"></p>
+    <div class="end-meta" id="winMeta"></div>
+    <div class="end-buttons">
+      <button class="btn gold big again">Run it again</button>
+      <button class="btn to-gallery">Ending Gallery</button>
+    </div>
+  </div>
+</section>
+
+<!-- modal -->
+<div class="modal hidden" id="modal">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="modalTitle"></h3><button id="modalClose" class="modal-close">✕</button></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="game.js"></script>
+</body>
+</html>
